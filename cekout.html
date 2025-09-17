@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/cekout.css" />
+    <title>pemesanan</title>
+  </head>
+  <body>
+    <div class="checkout-container">
+      <h1>PILIH MENU <span>PESANAN ANDA</span></h1>
+
+      <!-- Pilih menu -->
+      <table>
+        <tr>
+          <th>Menu</th>
+          <th>Harga</th>
+          <th>Jumlah</th>
+        </tr>
+        <tr>
+          <td>Espresso</td>
+          <td>IDR 15.000</td>
+          <td>
+            <input
+              type="number"
+              min="0"
+              value="0"
+              data-price="15000"
+              class="qty"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Cappuccino</td>
+          <td>IDR 20.000</td>
+          <td>
+            <input
+              type="number"
+              min="0"
+              value="0"
+              data-price="20000"
+              class="qty"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Latte</td>
+          <td>IDR 18.000</td>
+          <td>
+            <input
+              type="number"
+              min="0"
+              value="0"
+              data-price="18000"
+              class="qty"
+            />
+          </td>
+        </tr>
+      </table>
+
+      <p class="total">Total: IDR <span id="total">0</span></p>
+
+      <!-- Form data pembeli -->
+      <form action="proses_pesanan.php" method="post">
+        <input type="text" name="nama" placeholder="Nama Lengkap" required />
+        <input
+          type="text"
+          name="telepon"
+          placeholder="Nomor Telepon"
+          required
+        />
+        <textarea
+          name="alamat"
+          placeholder="Alamat Lengkap"
+          required
+        ></textarea>
+        <input type="hidden" name="total_harga" id="total_harga" value="0" />
+        <button type="submit">Konfirmasi Pesanan</button>
+      </form>
+    </div>
+
+    <script>
+      const qtyInputs = document.querySelectorAll(".qty");
+      const totalEl = document.getElementById("total");
+      const totalHidden = document.getElementById("total_harga");
+
+      qtyInputs.forEach((input) => {
+        input.addEventListener("input", hitungTotal);
+      });
+
+      function hitungTotal() {
+        let total = 0;
+        qtyInputs.forEach((input) => {
+          const price = parseInt(input.getAttribute("data-price"));
+          const qty = parseInt(input.value) || 0;
+          total += price * qty;
+        });
+        totalEl.textContent = total.toLocaleString("id-ID");
+        totalHidden.value = total;
+      }
+    </script>
+  </body>
+</html>
